@@ -62,7 +62,7 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
 
             final DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
 
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "BLA", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     mCallbackContext.success(selectedDate);
@@ -70,7 +70,7 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
                 }
             });
 
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "BLABLA", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     mCallbackContext.error("CANCELLED");

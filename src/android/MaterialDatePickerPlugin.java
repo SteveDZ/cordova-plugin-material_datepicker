@@ -38,7 +38,7 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
 
     private void displayDatePicker(CallbackContext callbackContext) {
         FragmentManager manager = cordova.getActivity().getFragmentManager();
-        DatePickerFragment dialog = new DatePickerFragment();
+        DatePickerFragment dialog = new DatePickerFragment(callbackContext);
         dialog.show(manager, DIALOG_DATE);
     }
 

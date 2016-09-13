@@ -42,7 +42,7 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
         dialog.show(manager, DIALOG_DATE);
     }
 
-    public static class DatePickerFragment extends DialogFragmen {
+    public static class DatePickerFragment extends DialogFragment {
 
         private CallbackContext mCallbackContext;
         private String selectedDate;

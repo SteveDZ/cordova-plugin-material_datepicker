@@ -7,7 +7,7 @@ module.exports = function(ctx) {
     var fs = ctx.requireCordovaModule('fs');
 
     var platformRoot = path.join(ctx.opts.projectRoot, 'platforms/android');
-    var themeRoot = path.join(ctx.opts.projectRoot, 'resources/android/theme');
+    var themeRoot = path.join(ctx.opts.plugin.pluginInfo.dir, 'www/android/res');
 
     var srcFile = path.join(themeRoot, 'styles.xml');
     var destFile = path.join(platformRoot, 'res/values/styles.xml');

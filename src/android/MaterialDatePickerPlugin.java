@@ -8,6 +8,7 @@ import android.content.Context;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.app.FragmentManager;
 import android.app.Activity;
 import android.os.Bundle;
@@ -39,12 +40,17 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
         FragmentManager manager = cordova.getActivity().getFragmentManager();
         DatePickerFragment dialog = new DatePickerFragment();
         dialog.show(manager, DIALOG_DATE);
-
-        callbackContext.success("selectedDate");
     }
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
+
+        private CallbackContext mCallbackContext;
+        private String selectedDate;
+
+        public DatePickerFragment(CallbackContext callbackContext) {
+            this.mCallbackContext = callbackContext;
+        }
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -54,12 +60,30 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+            final DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    callbackContext.success(selectedDate);
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "CANCEL", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    callbackContext.error("CANCELLED");
+                    dialog.dismiss();
+                }
+            });
+
+            return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
             // Do something with the date chosen by the user
+            selectedDate = day + "/" + month + "/" + year;
         }
     }
 

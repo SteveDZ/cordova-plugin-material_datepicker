@@ -12,7 +12,7 @@ module.exports = function(ctx) {
     var srcFile = path.join(themeRoot, 'styles.xml');
     var destFile = path.join(platformRoot, 'res/values/styles.xml');
 
-    console.log('Copying files...: ' + JSON.stringify(ctx));
+    console.log('Copying files... ');
 
     fs.createReadStream(srcFile).pipe(fs.createWriteStream(destFile));
 }

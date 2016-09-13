@@ -1,0 +1,23 @@
+{
+  "name": "cordova-plugin-material_datepicker",
+  "version": "0.0.1",
+  "description": "Cordova Material DatePicker Plugin",
+  "cordova": {
+    "id": "cordova-plugin-material_datepicker",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SteveDZ/cordova-plugin-material_datepicker"
+  },
+  "keywords": [
+    "cordova",
+    "android",
+    "datepicker",
+    "material"
+  ],
+  "author": "Steve De Zitter <de.zitter.steve@gmail.com>",
+  "license": "Apache 2.0"
+}

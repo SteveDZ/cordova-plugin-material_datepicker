@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    id="cordova-plugin-material_datepicker"
+    version="0.0.1">
+
+    <name>cordova-plugin-material_datepicker</name>
+    <description>cordova datepicker plugin which is able to handle the android 5+ material datepicker</description>
+    <license>MIT</license>
+    <keywords>cordova,android,datepicker,material</keywords>
+    <repo>https://github.com/SteveDZ/cordova-plugin-material_datepicker</repo>
+
+    <platform name="android">
+        <hook type="before_build" src="www/android/hooks/before_build/copy_android_theme.js" />
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MaterialDatePickerPlugin">
+                <param name="android-package" value="com.plugin.datepicker.MaterialDatePickerPlugin"/>
+            </feature>
+        </config-file>
+
+        <js-module src="www/android/MaterialDatePicker.js" name="MaterialDatePicker">
+            <clobbers target="materialDatePicker" />
+        </js-module>
+
+        <source-file src="src/android/MaterialDatePickerPlugin.java" target-dir="src/com/plugin/materialDatepicker" />
+
+        <framework src="com.android.support:appcompat-v7:24+" />
+    </platform>
+</plugin>

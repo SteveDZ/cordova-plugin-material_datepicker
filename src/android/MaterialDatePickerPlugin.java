@@ -7,16 +7,16 @@ import android.content.Context;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.DatePickerDialog;
 import android.app.FragmentManager;
-//import android.support.v7.app.AlertDialog;
-import android.app.AlertDialog;
-//import android.support.v7.app.AppCompatActivity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
+
+import java.util.Calendar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -43,18 +43,23 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
         callbackContext.success("selectedDate");
     }
 
-    public static class DatePickerFragment extends DialogFragment {
+    public static class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener {
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            DatePicker datePicker = new DatePicker(getActivity());
-            datePicker.setLayoutParams(new WindowManager.LayoutParams(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT));
-            //datePicker.setBackgroundColor(0xFF46a19e);
-            //datePicker.setCalendarViewShown(false);
+            // Use the current date as the default date in the picker
+            final Calendar c = Calendar.getInstance();
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
 
-            return new AlertDialog.Builder(getActivity())
-                    .setView(datePicker)
-                    .setPositiveButton(android.R.string.ok, null)
-                    .create();
+            // Create a new instance of DatePickerDialog and return it
+            return new DatePickerDialog(getActivity(), this, year, month, day);
+        }
+
+        public void onDateSet(DatePicker view, int year, int month, int day) {
+            // Do something with the date chosen by the user
         }
     }
 

@@ -42,8 +42,7 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
         dialog.show(manager, DIALOG_DATE);
     }
 
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
+    public static class DatePickerFragment extends DialogFragmen {
 
         private CallbackContext mCallbackContext;
         private String selectedDate;
@@ -60,17 +59,19 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
 
-            final DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+            final DatePickerDialog dialog = new DatePickerDialog(getActivity(), null, year, month, day);
 
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "BLA", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+                DatePicker datePicker = dialog.getDatePicker();
+
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    mCallbackContext.success(selectedDate);
+                    mCallbackContext.success(datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear());
                     dialog.dismiss();
                 }
             });
 
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "BLABLA", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     mCallbackContext.error("CANCELLED");
@@ -79,11 +80,6 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
             });
 
             return dialog;
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            // Do something with the date chosen by the user
-            selectedDate = day + "/" + month + "/" + year;
         }
     }
 

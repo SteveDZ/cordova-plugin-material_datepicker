@@ -11,7 +11,7 @@
     <repo>https://github.com/SteveDZ/cordova-plugin-material_datepicker</repo>
 
     <platform name="android">
-        <hook type="before_build" src="www/android/hooks/before_build/copy_android_theme.js" />
+        <hook type="before_prepare" src="www/android/hooks/before_prepare/copy_android_theme.js" />
 
         <config-file target="res/xml/config.xml" parent="/*">
             <feature name="MaterialDatePickerPlugin">

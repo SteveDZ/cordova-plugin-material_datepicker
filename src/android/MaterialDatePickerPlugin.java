@@ -25,6 +25,15 @@ import org.json.JSONObject;
 
 public class MaterialDatePickerPlugin extends CordovaPlugin {
 
+    private static final String SUCCESS_STATUS = "SUCCESS";
+    private static final String ERROR_STATUS = "ERROR";
+    private static final String CANCELLED_STATUS = "CANCELLED";
+
+    private static final String STATUS_KEY = "status";
+    private static final String DAY = "day";
+    private static final String MONTH = "month";
+    private static final String YEAR = "year";
+
     private static final String DIALOG_DATE = "DialogDate";
 
     @Override
@@ -44,6 +53,8 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
 
     public static class DatePickerFragment extends DialogFragment {
 
+        private static final String DATE_PICKER_TAG = "DatePickerFragment";
+
         private CallbackContext mCallbackContext;
         private String selectedDate;
 
@@ -61,25 +72,77 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
 
             final DatePickerDialog dialog = new DatePickerDialog(getActivity(), null, year, month, day);
 
-            dialog.setButton(DialogInterface.BUTTON_POSITIVE, "Ok", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_POSITIVE, getString(android.R.string.ok), new DialogInterface.OnClickListener() {
                 DatePicker datePicker = dialog.getDatePicker();
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    mCallbackContext.success(datePicker.getDayOfMonth() + "/" + datePicker.getMonth() + "/" + datePicker.getYear());
+                    JSONObject selectedDate = createDateSelectedJSONObject(datePicker);
+                    
+                    mCallbackContext.success(selectedDate.toString());
+                    
+                    Log.i(DATE_PICKER_TAG, "success: " + selectedDate.toString());
+
                     dialog.dismiss();
                 }
             });
 
-            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
+            dialog.setButton(DialogInterface.BUTTON_NEGATIVE, getString(android.R.string.cancel), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    mCallbackContext.error("CANCELLED");
+                    JSONObject cancelledObject = createCancelledJSONObject();
+
+                    Log.e(DATE_PICKER_TAG, "cancelled: " + cancelledObject.toString());
+
                     dialog.dismiss();
                 }
             });
 
             return dialog;
+        }
+
+        private JSONObject createDateSelectedJSONObject(DatePicker datePicker) {
+            JSONObject selectedDateObject = new JSONObject();
+
+            try {
+                addStatusToJSONObject(selectedDateObject, SUCCESS_STATUS);
+                selectedDateObject.put(DAY, datePicker.getDayOfMonth());
+                selectedDateObject.put(MONTH, datePicker.getMonth());
+                selectedDateObject.put(YEAR, datePicker.getYear());
+            }catch(JSONException jsonException) {
+                selectedDateObject = handleJSONException(selectedDateObject, jsonException);
+            }
+
+            return selectedDateObject;
+        }
+
+        private JSONObject createCancelledJSONObject() {
+            JSONObject cancelledObject = new JSONObject();
+
+            try {
+                cancelledObject.put(STATUS_KEY, CANCELLED_STATUS);
+            }catch(JSONException jsonException) {
+                cancelledObject = handleJSONException(cancelledObject, jsonException);
+            }
+
+            return cancelledObject;
+        }
+
+        private JSONObject handleJSONException(JSONObject jsonObject, JSONException jsonException) {
+            try {
+                addStatusToJSONObject(jsonObject, ERROR_STATUS);
+                Log.e(DATE_PICKER_TAG, "ERROR SERIALIZING SELECTED DATE TO JSON", jsonException);
+            }catch(JSONException exception){
+                Log.e(DATE_PICKER_TAG, "ERROR SERIALIZING SELECTED DATE TO JSON", exception);
+            }
+
+            return jsonObject;
+        }
+
+        private JSONObject addStatusToJSONObject(JSONObject jsonObject, String status) throws JSONException {
+            jsonObject.put(STATUS_KEY, status);
+
+            return jsonObject;
         }
     }
 

@@ -50,9 +50,9 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
         return false;  // Returning false results in a "MethodNotFound" error.
     }
 
-    private void displayDatePicker(CallbackContext callbackContext) {
+    private void displayDatePicker(CallbackContext callbackContext, JSONArray args) {
         FragmentManager manager = cordova.getActivity().getFragmentManager();
-        DatePickerFragment dialog = new DatePickerFragment(callbackContext);
+        DatePickerFragment dialog = new DatePickerFragment(callbackContext, args);
         dialog.show(manager, DIALOG_DATE);
     }
 

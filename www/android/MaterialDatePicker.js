@@ -27,7 +27,7 @@ MaterialDatePicker.prototype.show = function(callback, errorCallback, options) {
 		pluginErrorCallback,
 		"MaterialDatePickerPlugin",
 		"displayDatePicker",
-		[JSON.stringify(datePickerOptions)]
+		[datePickerOptions]
 	);
 }
 

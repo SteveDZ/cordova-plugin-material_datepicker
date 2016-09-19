@@ -35,12 +35,16 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
     private static final String MONTH = "month";
     private static final String YEAR = "year";
 
+    private static final String OPTIONS_SELECTED_DAY = "selectedDay";
+    private static final String OPTIONS_SELECTED_MONTH = "selectedMonth";
+    private static final String OPTIONS_SELECTED_YEAR = "selectedYear";
+
     private static final String DIALOG_DATE = "DialogDate";
 
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if ("displayDatePicker".equals(action)) {
-            this.displayDatePicker(callbackContext);
+            this.displayDatePicker(callbackContext, args);
             return true;
         }
         return false;  // Returning false results in a "MethodNotFound" error.
@@ -58,9 +62,11 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
 
         private CallbackContext mCallbackContext;
         private String selectedDate;
+        private JSONArray options;
 
-        public DatePickerFragment(CallbackContext callbackContext) {
+        public DatePickerFragment(CallbackContext callbackContext, JSONArray options) {
             this.mCallbackContext = callbackContext;
+            this.options = options;
         }
 
         @Override
@@ -70,6 +76,16 @@ public class MaterialDatePickerPlugin extends CordovaPlugin {
             int year = c.get(Calendar.YEAR);
             int month = c.get(Calendar.MONTH);
             int day = c.get(Calendar.DAY_OF_MONTH);
+
+            try {
+                JSONObject dateObject = options.optJSONObject(0);
+
+                year = dateObject.getInt(OPTIONS_SELECTED_YEAR);
+                month = dateObject.getInt(OPTIONS_SELECTED_MONTH);
+                day = dateObject.getInt(OPTIONS_SELECTED_DAY);
+            } catch(JSONException jsonException) {
+                Log.e(DATE_PICKER_TAG, "Error parsing plugin date options", jsonException);
+            }
 
             final DatePickerDialog dialog = new DatePickerDialog(getActivity(), null, year, month, day);
 

@@ -3,7 +3,17 @@ function MaterialDatePicker() {
 }
 
 //Todo -> add options to configure the plugin. Currently just send default along with cordova.exec function call
-MaterialDatePicker.prototype.show = function(callback, errorCallback) {
+MaterialDatePicker.prototype.show = function(callback, errorCallback, options) {
+
+    var today = new Date();
+
+    var datePickerOptions = {
+        'selectedDay': today.getDate(),
+        'selectedMonth': today.getMonth(),
+        'selectedYear': today.getFullYear()
+    }
+
+    Object.assign(datePickerOptions, options);
 
     var pluginCallback = function(selectedDate) {
         callback(selectedDate);
@@ -17,7 +27,7 @@ MaterialDatePicker.prototype.show = function(callback, errorCallback) {
 		pluginErrorCallback,
 		"MaterialDatePickerPlugin",
 		"displayDatePicker",
-		[]
+		[JSON.stringify(datePickerOptions)]
 	);
 }
 

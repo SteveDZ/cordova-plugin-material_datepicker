@@ -5,7 +5,7 @@
         <!-- Customize your theme here. -->
         <item name="android:colorPrimary">#46a19e</item>
         <item name="android:colorPrimaryDark">#46a1FF</item>
-        <item name="android:colorAccent">#E66237</item>
+        <item name="android:colorAccent">#46a19e</item>
 
         <!-- dialog theme stuff -->
         <item name="android:dialogTheme">@style/AppTheme.DialogTheme</item>
@@ -14,8 +14,8 @@
     <!-- Styles for pop-up dialogs -->
     <style name="AppTheme.DialogTheme" parent="Theme.AppCompat.Light.Dialog">
 
-        <!--<item name="android:colorPrimary">@color/primaryColor</item>
-        <item name="android:colorPrimaryDark">@color/primaryColorDark</item>-->
+        <item name="android:colorPrimary">#46a19e</item>
+        <item name="android:colorPrimaryDark">#46a19e</item>
         <item name="android:colorAccent">#46a19e</item>
 
     </style>
